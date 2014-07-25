@@ -35,6 +35,7 @@ def poker(user_hand)
     return "Full House"
   elsif test_hand.first(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]} || test_hand.last(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]}
     return "Three of a Kind"
+  elsif test_hand.uniq!.each_cons(2).all? {|num| num}
   end
 puts no_suit
 end
