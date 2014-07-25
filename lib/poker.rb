@@ -1,41 +1,44 @@
 def poker(user_hand)
-  convertToInt = []
   test_hand = []
+  no_suit = []
 
-  user_hand.each_with_index do |user_hand, index|
-    convertToInt << user_hand[index][0].to_i
-    puts convertToInt
-    if convertToInt[index] > 0
-      test_hand << user_hand[index]
-    else
-       if user_hand[index][0] == "J"
-        test_hand << "11" + user_hand[index][-1]
-      elsif user_hand[index][0] == "Q"
-        test_hand << "12" + user_hand[index][-1]
-      elsif user_hand[index][0] == "K"
-        test_hand << "13" + user_hand[index][-1]
-      else user_hand[index][0] == "A"
-        test_hand << "14" + user_hand[index][-1]
-      end
+  user_hand.each do |card|
+    no_suit << card.slice(-1)
+    card.delete! "C, D, H, S"
 
+    if card == "J"
+      test_hand << "11"
+    elsif card == "Q"
+      test_hand << "12"
+    elsif card == "K"
+      test_hand << "13"
+    elsif card == "A"
+      test_hand << "14"
+    else test_hand << card
     end
   end
-
 
   test_hand = test_hand.sort
+  test_hand.map! {|x| x.to_i}
 
-  user_cards = []
-  counter = 0
-  test_hand.each do |test_hand, index|
-    if test_hand[0][-1] == test_hand[0 + counter][-1]
-      user_cards << test_hand[index][-1]
-      counter += 1
-    end
-  end
-
-  if user_cards.length == 5 && test_hand[0][0,2] == 10
+  if no_suit.each_cons(2).all? {|pipes| pipes[1] == pipes[0]} && test_hand.each_cons(2).all? {|x| x[1] - x[0] == 1} && test_hand[0] == 10
     return "Royal Flush"
+  elsif no_suit.each_cons(2).all? {|pipes| pipes[1] == pipes[0]} && test_hand.each_cons(2).all? {|x| x[1] - x[0] == 1}
+    return "Straight Flush"
+  elsif  no_suit.each_cons(2).all? {|pipes| pipes[1] == pipes[0]}
+    return "Flush"
+  elsif test_hand.each_cons(2).all? {|x| x[1] - x[0] == 1}
+    return "Straight"
+  elsif test_hand.first(4).each_cons(2).all? {|num| num[0] == num[1]} || test_hand.last(4).each_cons(2).all? {|num| num[0] == num[1]}
+    return "Four of a Kind"
+  elsif test_hand.first(3).each_cons(2).all? {|num| num[0] == num[1]} && test_hand.last(2).each_cons(2).all? {|num| num[0] == num[1]} || test_hand.first(2).each_cons(2).all? {|num| num[0] == num[1]} && test_hand.last(3).each_cons(2).all? {|num| num[0] == num[1]}
+    return "Full House"
+  elsif test_hand.first(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]} || test_hand.last(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]}
+    return "Three of a Kind"
   end
+puts no_suit
 end
 
-# poker
+
+
+poker(['3D','4S','5H','6S','7C'])
