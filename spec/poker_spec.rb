@@ -15,15 +15,21 @@ describe('poker') do
     poker(['3D','4S','5H','6S','7C']).should(eq("Straight"))
   end
   it('searches for a four of the same face cards') do
-    poker(['6D', '6C', '6H', '6S', '2C']).should(eq("Four of a Kind"))
+    poker(['6D', '6C', '2C', '6H', '6S']).should(eq("Four of a Kind"))
   end
   it('searches for a full house, 3 of the same card and 2 of the same card e.g. 3 3s and 2 4s') do
-    poker(['3D','3C','3H','4D','4C']).should(eq("Full House"))
+    poker(['4D','3D','3C','3H','4C']).should(eq("Full House"))
   end
   it('searches for 3 of a kind, e.g. 3, 6s or 3 8s') do
-    poker(['6D','6C','6H','2H','QD']).should(eq("Three of a Kind"))
+    poker(['7D','KC','KH','KD','AD']).should(eq("Three of a Kind"))
   end
   it('searches for two pairs of matching "numbered" cards') do
-    poker(['KD', '4C', 'KD', 'JH', 'JH']).should(eq("Two Pairs"))
+    poker(['KD','4C','KD','JH','JH']).should(eq("Two Pairs"))
+  end
+  it('searches for one pair of matching "numbered" cards') do
+    poker(['3D','7H','JS','3H','QC']).should(eq("One Pair"))
+  end
+  it('searches for no combination of cards') do
+    poker(['QD', '3D', '7H', 'AC', '10S']).should(eq("High Card"))
   end
 end

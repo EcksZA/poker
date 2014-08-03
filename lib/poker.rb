@@ -31,15 +31,15 @@ def poker(user_hand)
     return "Straight"
   elsif test_hand.first(4).each_cons(2).all? {|num| num[0] == num[1]} || test_hand.last(4).each_cons(2).all? {|num| num[0] == num[1]}
     return "Four of a Kind"
-  elsif test_hand.first(3).each_cons(2).all? {|num| num[0] == num[1]} && test_hand.last(2).each_cons(2).all? {|num| num[0] == num[1]} || test_hand.first(2).each_cons(2).all? {|num| num[0] == num[1]} && test_hand.last(3).each_cons(2).all? {|num| num[0] == num[1]}
+  elsif test_hand.uniq.length == 2
     return "Full House"
   elsif test_hand.first(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]} || test_hand.last(3).each_cons(3).all? {|num| num[0] == num[1] && num[1] == num[2]}
     return "Three of a Kind"
-  elsif test_hand.uniq!.each_cons(2).all? {|num| num}
+  elsif test_hand.uniq.length == 3
+    return "Two Pairs"
+  elsif test_hand.uniq.length == 4
+    return "One Pair"
+  else
+    return "High Card"
   end
-puts no_suit
 end
-
-
-
-poker(['3D','4S','5H','6S','7C'])
